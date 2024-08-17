@@ -22,28 +22,35 @@ public class TerminalController {
             System.out.println("************************************");
             System.out.print("请输入要执行的功能序号: ");
 
-            int choice = scanner.nextInt();
-
-            switch (choice) {
-                case 1:
-                    DepartmentTerminal departmentTerminal = new DepartmentTerminal();
-                    departmentTerminal.showMenu();
-                    break;
-                case 2:
-                    EmployeeTerminal employeeTerminal = new EmployeeTerminal();
-                    employeeTerminal.showMenu();
-                    break;
-                case 3:
-                    SalaryTerminal salaryTerminal = new SalaryTerminal();
-                    salaryTerminal.showMenu();
-                    break;
-                case 4:
-                    System.out.println("退出系统...");
-                    scanner.close();
-                    return;
-                default:
-                    System.out.println("无效的选择，请重新输入。");
+            // 读取整行输入
+            String input = scanner.nextLine();
+            try {
+                // 尝试将输入转换为整数
+                int choice = Integer.parseInt(input);
+                switch (choice) {
+                    case 1:
+                        DepartmentTerminal departmentTerminal = new DepartmentTerminal();
+                        departmentTerminal.showMenu();
+                        break;
+                    case 2:
+                        EmployeeTerminal employeeTerminal = new EmployeeTerminal();
+                        employeeTerminal.showMenu();
+                        break;
+                    case 3:
+                        SalaryTerminal salaryTerminal = new SalaryTerminal();
+                        salaryTerminal.showMenu();
+                        break;
+                    case 4:
+                        System.out.println("退出系统...");
+                        scanner.close();
+                        return;
+                    default:
+                        System.out.println("无效的选择，请重新输入 1 到 4 之间的数字。");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("无效的输入！请输入一个有效的数字。");
             }
+
         }
 
     }

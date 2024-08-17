@@ -157,4 +157,16 @@ public class DepartmentTerminal extends BaseTerminal {
         TablePrinter.printTable(headers, data);
     }
 
+    public ImsDepartment getDepartmentByIndex(int index) {
+        List<ImsDepartment> departments = departmentService.getAllDepartments();
+        if (index < 1 || index > departments.size()) {
+            return null; // 返回 null 表示索引无效
+        }
+        return departments.get(index - 1); // 转换为 0 基索引
+    }
+
+
+
 }
+
+

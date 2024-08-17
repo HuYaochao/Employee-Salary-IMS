@@ -41,6 +41,17 @@ public class EmployeeServiceImpl implements EmployeeService {
             System.out.println("部门不存在，无法添加员工。");
             return false;
         }
+        // 获取用户输入的员工信息
+
+        if (empName.isEmpty() || empName.length() > 5) {
+            System.out.println("无效的员工姓名！姓名不能为空且长度不能超过 50 个字符。");
+            return false;
+        }
+
+        if (!"MALE".equals(empSex) && !"FEMALE".equals(empSex)) {
+            System.out.println("无效的性别输入！请输入 'MALE' 或 'FEMALE'。");
+            return false;
+        }
 
         // 生成员工ID、编码、和创建时间
         String empId = UUIDUtil.generateUUID();

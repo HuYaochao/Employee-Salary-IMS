@@ -1,5 +1,6 @@
 package com.company.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -26,5 +27,21 @@ public class DateUtil {
     public static String getSalaryDate(Date date) {
         return SALARY_DATE_FORMAT.format(date);
     }
+
+    // 校验工资日期格式的方法
+    public static boolean isValidSalaryDate(String dateStr) {
+        if (dateStr == null) {
+            return false;
+        }
+        SALARY_DATE_FORMAT.setLenient(false);
+        try {
+            Date date = SALARY_DATE_FORMAT.parse(dateStr + "-01");
+            return dateStr.equals(SALARY_DATE_FORMAT.format(date).trim());
+        } catch (ParseException e) {
+            return false;
+        }
+    }
+
+
 
 }

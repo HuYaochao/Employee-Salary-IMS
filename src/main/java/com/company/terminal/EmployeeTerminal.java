@@ -17,13 +17,16 @@ import java.util.Scanner;
 public class EmployeeTerminal extends BaseTerminal {
     private EmployeeService employeeService;
     private DepartmentService departmentService;
+    private DepartmentTerminal departmentTerminal;
     public EmployeeTerminal() {
         this.moduleName = "员工";
         // 使用 ServiceInitializer 初始化
         ServiceInitializer initializer = new ServiceInitializer();
+        this.departmentTerminal = new DepartmentTerminal();
         this.employeeService = initializer.getEmployeeService();
         this.departmentService = initializer.getDepartmentService();
     }
+
 
     @Override
     public void showMenu() {
@@ -41,16 +44,33 @@ public class EmployeeTerminal extends BaseTerminal {
         System.out.println("请输入员工性别 (MALE / FEMALE)：");
         String empSex = scanner.nextLine().toUpperCase();
 
-        System.out.println("请输入员工所属部门名称：");
-        String departmentName = scanner.nextLine();
 
-        // 调用业务逻辑层添加员工
-        boolean success = employeeService.addEmployee(empName, empSex, departmentName);
+        departmentTerminal.retrieve();
 
-        if (success) {
-            System.out.println("员工添加成功！");
-        } else {
-            System.out.println("员工添加失败，请检查输入信息。");
+        System.out.println("请输入员工所属部门的序号：");
+        int departmentIndex = -1;
+        while (true) {
+            try {
+                String input = scanner.nextLine();
+                departmentIndex = Integer.parseInt(input);
+                ImsDepartment department = departmentTerminal.getDepartmentByIndex(departmentIndex);
+                if (department != null) {
+                    System.out.println("选定的部门是：" + department.getDptName());
+                    // 调用业务逻辑层添加员工
+                    boolean success = employeeService.addEmployee(empName, empSex, department.getDptName());
+
+                    if (success) {
+                        System.out.println("员工添加成功！");
+                    } else {
+                        System.out.println("员工添加失败，请检查输入信息。");
+                    }
+                    break;
+                } else {
+                    System.out.println("无效的序号！请输入有效的部门序号。");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("无效的输入！请输入一个有效的数字。");
+            }
         }
     }
 

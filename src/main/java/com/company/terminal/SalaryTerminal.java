@@ -57,11 +57,12 @@ public class SalaryTerminal extends BaseTerminal {
         ImsEmployee selectedEmployee = employees.get(index);
         String employeeId = selectedEmployee.getEmpId();
 
-        System.out.println("请输入工资日期（格式: yyyy-MM）：");
-        String saDate = scanner.nextLine();
+
+        // 获取当前月份的工资日期
+        String currentSalaryDate = DateUtil.getSalaryDate();
 
         // 检查当月薪资是否已经录入
-        ImsSalary existingSalary = salaryService.getSalaryByEmployeeAndDate(employeeId, saDate);
+        ImsSalary existingSalary = salaryService.getSalaryByEmployeeAndDate(employeeId, currentSalaryDate);
         if (existingSalary != null) {
             System.out.println("该员工本月薪资已录入，请勿重复录入！");
             return;
@@ -83,7 +84,7 @@ public class SalaryTerminal extends BaseTerminal {
         ImsSalary salary = new ImsSalary();
         salary.setSaId(UUIDUtil.generateUUID());
         salary.setEmpId(employeeId);
-        salary.setSaDate(saDate);
+        salary.setSaDate(currentSalaryDate);
         salary.setSaBase(baseSalary);
         salary.setSaPerformance(performanceSalary);
         salary.setSaInsurance(insuranceDeduction);
@@ -120,8 +121,18 @@ public class SalaryTerminal extends BaseTerminal {
         ImsEmployee selectedEmployee = employees.get(index);
         String employeeId = selectedEmployee.getEmpId();
 
-        System.out.println("请输入工资日期（格式: yyyy-MM）：");
-        String saDate = scanner.nextLine();
+        String saDate = null;
+        while (true) {
+            System.out.println("请输入工资日期（格式: yyyy-MM）：");
+            saDate = scanner.nextLine();
+
+            if (DateUtil.isValidSalaryDate(saDate)) {
+                System.out.println("输入的工资日期有效: " + saDate);
+                break; // 日期有效，退出循环
+            } else {
+                System.out.println("输入的工资日期格式无效，请重新输入。");
+            }
+        }
 
         // 检查当月薪资是否已经录入
         ImsSalary existingSalary = salaryService.getSalaryByEmployeeAndDate(employeeId, saDate);
@@ -176,8 +187,18 @@ public class SalaryTerminal extends BaseTerminal {
         ImsEmployee selectedEmployee = employees.get(index);
         String employeeId = selectedEmployee.getEmpId();
 
-        System.out.println("请输入薪资日期（格式: yyyy-MM）：");
-        String saDate = scanner.nextLine();
+        String saDate = null;
+        while (true) {
+            System.out.println("请输入工资日期（格式: yyyy-MM）：");
+            saDate = scanner.nextLine();
+
+            if (DateUtil.isValidSalaryDate(saDate)) {
+                System.out.println("输入的工资日期有效: " + saDate);
+                break; // 日期有效，退出循环
+            } else {
+                System.out.println("输入的工资日期格式无效，请重新输入。");
+            }
+        }
 
         // 检查当月薪资是否存在
         ImsSalary existingSalary = salaryService.getSalaryByEmployeeAndDate(employeeId, saDate);
