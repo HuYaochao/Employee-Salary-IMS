@@ -160,9 +160,11 @@ public class DepartmentTerminal extends BaseTerminal {
     public ImsDepartment getDepartmentByIndex(int index) {
         List<ImsDepartment> departments = departmentService.getAllDepartments();
         if (index < 1 || index > departments.size()) {
-            return null; // 返回 null 表示索引无效
+            // 返回 null 表示索引无效
+            return null;
         }
-        return departments.get(index - 1); // 转换为 0 基索引
+        // 转换为 0 基索引
+        return departments.get(index - 1);
     }
 
 

@@ -121,18 +121,8 @@ public class SalaryTerminal extends BaseTerminal {
         ImsEmployee selectedEmployee = employees.get(index);
         String employeeId = selectedEmployee.getEmpId();
 
-        String saDate = null;
-        while (true) {
-            System.out.println("请输入工资日期（格式: yyyy-MM）：");
-            saDate = scanner.nextLine();
-
-            if (DateUtil.isValidSalaryDate(saDate)) {
-                System.out.println("输入的工资日期有效: " + saDate);
-                break; // 日期有效，退出循环
-            } else {
-                System.out.println("输入的工资日期格式无效，请重新输入。");
-            }
-        }
+        // 获取当前月份的工资日期
+        String saDate = DateUtil.getSalaryDate();;
 
         // 检查当月薪资是否已经录入
         ImsSalary existingSalary = salaryService.getSalaryByEmployeeAndDate(employeeId, saDate);
